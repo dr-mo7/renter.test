@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Review Map</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClUM0RFX8BR7Px2TTZIJaBoBPHRPEv6nY&libraries=places"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Map -->
+                <div id="map"></div>
+                <!-- Review Form -->
+                <div class="mt-3">
+                    <h2>Leave a Review</h2>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="Enter location">
+                        </div>
+                        <div class="form-group">
+                            <label for="review">Your Review</label>
+                            <textarea class="form-control" id="review" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (jQuery dependency) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Initialize and display the map
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 34.0522, lng: -118.2437}, // Los Angeles coordinates
+                zoom: 12
+            });
+
+            // Add marker when user clicks on the map
+            var marker = new google.maps.Marker({
+                position: {lat: 34.0522, lng: -118.2437},
+                map: map,
+                draggable: true
+            });
+
+            // Add event listener to update location input when marker is dragged
+            marker.addListener('dragend', function() {
+                var position = marker.getPosition();
+                $('#location').val(position.lat() + ', ' + position.lng());
+            });
+
+            // Submit review form
+            $('#reviewForm').submit(function (e) {
+                e.preventDefault();
+                var location = $('#location').val();
+                var review = $('#review').val();
+                // Dummy code for submitting review (replace with actual submission logic)
+                console.log('Location: ' + location + ', Review: ' + review);
+                alert('Review submitted!');
+                // You can add AJAX request here to submit the review to your backend
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClUM0RFX8BR7Px2TTZIJaBoBPHRPEv6nY&callback=initMap"></script>
+</body>
+</html>
